@@ -1,0 +1,76 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+ul, ul li {
+    list-style: none;
+}
+
+.main-container {
+    width: 500px;
+}
+
+.main-container .json-data,
+.main-container .json-schema {
+    width: 100%;
+    height: 140px;
+}
+
+.main-container .widget-title {
+    margin: 0;
+}
+
+.widget-element,
+.widget-element .widget-header,
+.widget-element .widget-header .widget-title,
+.widget-element .widget-header .widget-description {
+    display: block;
+}
+
+.widget-element .widget-header .widget-title {
+    margin: 0;
+}
+
+.widget-element {
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.widget-element.widget-string {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.5);
+}
+
+.widget-element.widget-object {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.5);
+}
+
+.widget-element.widget-object ul {
+    margin: 0;
+    padding: 0;
+}
+
+.widget-element.widget-array {
+    background: rgba(0, 0, 255, 0.1);
+    border: 1px solid rgba(0, 0, 255, 0.5);
+}
+
+.widget-element .widget-item {
+    display: block;
+    margin: 10px 0;
+}
+
+.widget-element.widget-array .widget-item {
+    display: table;
+}
+
+.widget-element.widget-array .widget-item .widget-item-content,
+.widget-element.widget-array .widget-item .widget-item-remove-button {
+    display: table-cell;
+}
+
+.widget-element.widget-array .widget-item .widget-item-remove-button button {
+    padding: 10px;
+    margin: 5px;
+}
