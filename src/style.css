@@ -37,12 +37,18 @@ ul, ul li {
 }
 
 .widget-element.widget-string {
-    background: rgba(255, 0, 0, 0.1);
+    background: rgba(255, 0, 0, 0.2);
     border: 1px solid rgba(255, 0, 0, 0.5);
 }
 
+
+.widget-element.widget-number {
+    background: rgba(255, 255, 0, 0.2);
+    border: 1px solid rgba(255, 255, 0, 0.5);
+}
+
 .widget-element.widget-object {
-    background: rgba(0, 255, 0, 0.1);
+    background: rgba(0, 255, 0, 0.2);
     border: 1px solid rgba(0, 255, 0, 0.5);
 }
 
@@ -52,13 +58,14 @@ ul, ul li {
 }
 
 .widget-element.widget-array {
-    background: rgba(0, 0, 255, 0.1);
+    background: rgba(0, 0, 255, 0.2);
     border: 1px solid rgba(0, 0, 255, 0.5);
 }
 
 .widget-element .widget-item {
     display: block;
     margin: 10px 0;
+    width: 100%;
 }
 
 .widget-element.widget-array .widget-item {
@@ -68,9 +75,19 @@ ul, ul li {
 .widget-element.widget-array .widget-item .widget-item-content,
 .widget-element.widget-array .widget-item .widget-item-remove-button {
     display: table-cell;
+    width: 100%;
 }
 
 .widget-element.widget-array .widget-item .widget-item-remove-button button {
     padding: 10px;
     margin: 5px;
+}
+
+.widget-error-report.hasErrors {
+    border: 1px solid red;
+}
+
+.widget-error-report .widget-error-item {
+    font-size: 10px;
+    color: red;
 }

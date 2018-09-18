@@ -18,7 +18,7 @@ const ArrayWidget = ({ name, data, onDataChange, title, description, item }) => 
         onDataChange(name, data);
     }
 
-    const values = data.hasChanges() ? data.getList() : (data.getList() || data.getDefaultValue());
+    const values = data.hasChanges() ? data.getValue() : (data.getValue() || data.getDefaultValue());
 
     return <div className="widget-element widget-array">
         <Header title={title} description={description} />

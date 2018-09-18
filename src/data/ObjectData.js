@@ -1,26 +1,48 @@
 class ObjectData {
-    constructor(properties) {
+    constructor(properties, validator) {
         this.properties = properties;
+        this._validator = validator;
     }
 
     setValue(value) {
-        const entries = Object.entries(value);
-        entries.forEach(([name, val]) => this.properties[name] = val);
+        const entries = Object.entries(this.getValue());
+        this.properties = entries.reduce((acc, [name, val]) => {
+            if (name in value) {
+                acc[name] = value[name];
+            } else {
+                acc[name] = val;
+            }
+            return acc;
+        }, {});
+        this._validator.validate(this._values);
     }
 
-    getProperties() {
+    getValue() {
         return this.properties;
     }
 
     getValueOrDefault() {
-        const entries = Object.entries(this.properties);
-        return entries.reduce((acc, [name, value]) => {
+        const result = Object.entries(this.getValue()).reduce((acc, [name, value]) => {
             const val = value.getValueOrDefault();
             if (val) {
                 acc[name] = value.getValueOrDefault();
             }
             return acc;
         }, {});
+
+        return Object.keys(result).length > 0 ? result : undefined;
+    }
+
+    validate() {
+        this._validator.validate(this.getValue());
+    }
+
+    isInvalid() {
+        return this._validator.isInvalid();
+    }
+
+    errors() {
+        return this._validator.errors();
     }
 
     clone() {
@@ -29,9 +51,10 @@ class ObjectData {
 
     static get Builder() {
         return class Builder {
-            constructor(properties) {
+            constructor(properties, validator) {
                 this.properties = properties;
-                this.values = Builder.cloneProps(this.properties);
+                this._values = Builder.cloneProps(this.properties);
+                this._validator = validator;
             }
 
             static cloneProps(properties) {
@@ -42,8 +65,13 @@ class ObjectData {
                 }, {});
             }
 
-            setValue(name, value) {
-                this.values[name].setValue(value);
+            setValue(value) {
+                const entries = Object.entries(value);
+
+                entries.forEach(([name, value]) => {
+                    this._values[name].setValue(value);
+                });
+                this._validator.validate(this._values);
                 return this;
             }
 
@@ -53,11 +81,12 @@ class ObjectData {
                     acc[name] = value.build();
                     return acc;
                 }, {});
-                return new ObjectData(props);
+                return new ObjectData(props, this._validator);
             }
 
             clone() {
-                return new Builder(Builder.cloneProps(this.properties));
+                const propCloned = Builder.cloneProps(this.properties, this._validator);
+                return new Builder(propCloned, this._validator);
             }
         }
     }

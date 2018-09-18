@@ -1,29 +1,43 @@
 class GenericData {
-    constructor(value, defaultValue) {
-        this.value = value;
-        this.defaultValue = defaultValue;
-        this.changes = false;
+    constructor(value, defaultValue, validator) {
+        this._value = value;
+        this._default = defaultValue;
+        this._changed = false;
+        this._validator = validator
     }
 
     setValue(value) {
-        this.value = value;
-        this.changes = true;
+        this._value = value;
+        this._validator.validate(this._value);
+        this._changed = true;
     }
 
     getValue() {
-        return this.value;
+        return this._value;
     }
 
     hasChanges() {
-        return this.changes;
+        return this._changed;
     }
 
     getDefaultValue() {
-        return this.defaultValue;
+        return this._default;
     }
 
     getValueOrDefault() {
-        return this.value || this.defaultValue;
+        return this._value || this._default;
+    }
+
+    validate() {
+        this._validator.validate(this.getValue());
+    }
+
+    isInvalid() {
+        return this._validator.isInvalid();
+    }
+
+    errors() {
+        return this._validator.errors();
     }
 
     clone() {
@@ -32,21 +46,24 @@ class GenericData {
 
     static get Builder() {
         return class Builder {
-            constructor(defaultValue) {
-                this.defaultValue = defaultValue;
+            constructor(defaultValue, validator) {
+                this._default = defaultValue;
+                this._validator = validator;
+                this._validator.validate(this._default);
             }
 
             setValue(value) {
-                this.value = value;
+                this._value = value;
+                this._validator.validate(this._value);
                 return this;
             }
 
             build() {
-                return new GenericData(this.value, this.defaultValue);
+                return new GenericData(this._value, this._default, this._validator);
             }
 
             clone() {
-                return new Builder(this.defaultValue);
+                return new Builder(this._default, this._validator);
             }
         }
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 
 const ObjectWidget = ({ name, data, onDataChange, title, description, properties }) => {
-    const dataEntries = Object.entries(data.getProperties());
+    const dataEntries = Object.entries(data.getValue());
 
     const handleOnDataChange = (prop, value) => {
         data.setValue({ [prop]: value });
