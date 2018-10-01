@@ -78,9 +78,14 @@ ul, ul li {
     width: 100%;
 }
 
+.widget-element.widget-oneOf .widget-element-options button,
 .widget-element.widget-array .widget-item .widget-item-remove-button button {
     padding: 10px;
     margin: 5px;
+}
+
+.widget-element.widget-oneOf .widget-element-options button.selected {
+    background: lightskyblue;
 }
 
 .widget-error-report.hasErrors {

@@ -23,10 +23,7 @@ class ObjectData {
 
     getValueOrDefault() {
         const result = Object.entries(this.getValue()).reduce((acc, [name, value]) => {
-            const val = value.getValueOrDefault();
-            if (val) {
-                acc[name] = value.getValueOrDefault();
-            }
+            acc[name] = value.getValueOrDefault();
             return acc;
         }, {});
 
@@ -48,6 +45,8 @@ class ObjectData {
     clone() {
         return new ObjectData({ ...this });
     }
+
+    hash() { }
 
     static get Builder() {
         return class Builder {
