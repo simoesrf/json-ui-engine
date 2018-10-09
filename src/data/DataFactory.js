@@ -2,10 +2,11 @@ import GenericData from './GenericData';
 import ObjectData from './ObjectData';
 import ArrayData from './ArrayData';
 import OneOfData from './OneOfData';
+import ConstData from './ConstData';
 
 function DataFactory(ValidatorFactory) {
     const create = (schema) => {
-        const objType = schema.hasOwnProperty('oneOf') ? 'oneOf' : schema.type;
+        const objType = schema.hasOwnProperty('oneOf') ? 'oneOf' : schema.hasOwnProperty('const') ? 'const' : schema.type;
         let validator = ValidatorFactory.create(schema);
 
         switch (objType) {
@@ -26,6 +27,9 @@ function DataFactory(ValidatorFactory) {
             case 'oneOf':
                 const oneOfItems = schema.oneOf.map((item) => create(item));
                 return new OneOfData.Builder(oneOfItems, 0, ValidatorFactory.create({}));
+
+            case 'const':
+                return new ConstData.Builder(schema.const);
 
             default:
 

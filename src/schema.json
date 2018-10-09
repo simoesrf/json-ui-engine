@@ -107,11 +107,9 @@
                 "widget": "button_selection_widget",
                 "options": [
                     {
-                        "id": "option1",
                         "label": "Select without address"
                     },
                     {
-                        "id": "option2",
                         "label": "Select with address"
                     }
                 ]
@@ -122,11 +120,7 @@
                     "title": "My nested title",
                     "description": "My nested description",
                     "properties": {
-                        "__id__": {
-                            "type": "string",
-                            "writeOnly": true,
-                            "readOnly": true
-                        },
+                        "__id__": { "const": "option1" },
                         "country": {
                             "type": "string",
                             "enum": [
@@ -144,12 +138,7 @@
                     "title": "My nested title",
                     "description": "My nested description",
                     "properties": {
-                        "__id__": {
-                            "__ui__": {
-                                "widget": "hidden_widget"
-                            },
-                            "type": "string"
-                        },
+                        "__id__": { "const": "option2" },
                         "address": {
                             "title": "adress",
                             "type": "string"

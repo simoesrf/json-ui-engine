@@ -54,8 +54,18 @@ class OneOfData {
             }
 
             setValue(value) {
-                this._options[this._selectedOption].setValue(value);
-                this._validator.validate(this._options[this._selectedOption]);
+                // Hack to support oneOf feature
+                const { __id__ } = value;
+                this._selectedOption = this._options.findIndex((option) => {
+                    return option._properties.__id__._value === __id__;
+                });
+
+                if (this._selectedOption > -1) {
+                    this._options[this._selectedOption].setValue(value);
+                    this._validator.validate(this._options[this._selectedOption]);
+                } else {
+                    this._selectedOption = 0;
+                }
                 return this;
             }
 

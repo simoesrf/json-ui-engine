@@ -20,7 +20,14 @@ class Form extends React.Component {
         const { schema } = this.props;
 
         this.setState({
-            data: new DataFactory(ValidatorFactory).create(schema).build(),
+            data: new DataFactory(ValidatorFactory).create(schema).setValue({
+                "name": "Manue",
+                "friends": [],
+                "test2": {
+                    "__id__": "option1",
+                    "city": "Portugal"
+                }
+            }).build(),
             Widgets: new WidgetFactory.create(schema)
         });
     }
