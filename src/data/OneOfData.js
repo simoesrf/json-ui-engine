@@ -54,13 +54,14 @@ class OneOfData {
             }
 
             setValue(value) {
-                // this._values.push(this._items.clone().setValue(value).build());
-                // this._validator.validate(this._values);
+                this._options[this._selectedOption].setValue(value);
+                this._validator.validate(this._options[this._selectedOption]);
                 return this;
             }
 
             build() {
-                return new OneOfData(this._options, this._selectedOption, this._validator);
+                const options = this._options.map((option) => option.build());
+                return new OneOfData(options, this._selectedOption, this._validator);
             }
 
             clone() {

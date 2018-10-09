@@ -1,12 +1,13 @@
 class ObjectData {
     constructor(properties, validator) {
-        this.properties = properties;
+        this._properties = properties;
         this._validator = validator;
+        this._validator.validate(this._properties);
     }
 
     setValue(value) {
         const entries = Object.entries(this.getValue());
-        this.properties = entries.reduce((acc, [name, val]) => {
+        this._properties = entries.reduce((acc, [name, val]) => {
             if (name in value) {
                 acc[name] = value[name];
             } else {
@@ -18,12 +19,15 @@ class ObjectData {
     }
 
     getValue() {
-        return this.properties;
+        return this._properties;
     }
 
     getValueOrDefault() {
         const result = Object.entries(this.getValue()).reduce((acc, [name, value]) => {
-            acc[name] = value.getValueOrDefault();
+            if (!!value.getValueOrDefault()) {
+                acc[name] = value.getValueOrDefault();
+            }
+            // acc[name] = value.getValueOrDefault();
             return acc;
         }, {});
 
@@ -51,8 +55,8 @@ class ObjectData {
     static get Builder() {
         return class Builder {
             constructor(properties, validator) {
-                this.properties = properties;
-                this._values = Builder.cloneProps(this.properties);
+                this._properties = properties;
+                this._values = Builder.cloneProps(this._properties);
                 this._validator = validator;
             }
 
@@ -66,16 +70,13 @@ class ObjectData {
 
             setValue(value) {
                 const entries = Object.entries(value);
-
-                entries.forEach(([name, value]) => {
-                    this._values[name].setValue(value);
-                });
+                entries.forEach(([name, value]) => this._values[name].setValue(value));
                 this._validator.validate(this._values);
                 return this;
             }
 
             build() {
-                const entries = Object.entries(this.properties);
+                const entries = Object.entries(this._values);
                 const props = entries.reduce((acc, [name, value]) => {
                     acc[name] = value.build();
                     return acc;
@@ -84,7 +85,7 @@ class ObjectData {
             }
 
             clone() {
-                const propCloned = Builder.cloneProps(this.properties, this._validator);
+                const propCloned = Builder.cloneProps(this._properties, this._validator);
                 return new Builder(propCloned, this._validator);
             }
         }

@@ -4,6 +4,7 @@ class GenericData {
         this._default = defaultValue;
         this._changed = false;
         this._validator = validator
+        this._validator.validate(this._value);
     }
 
     setValue(value) {
@@ -25,7 +26,7 @@ class GenericData {
     }
 
     getValueOrDefault() {
-        return this._value || this._default;
+        return this.hasChanges() ? this._value : this._value || this._default;
     }
 
     validate() {
@@ -54,7 +55,7 @@ class GenericData {
 
             setValue(value) {
                 this._value = value;
-                this._validator.validate(this._value);
+                // this._validator.validate(this._value);
                 return this;
             }
 

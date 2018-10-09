@@ -10,22 +10,57 @@ import DataFactory from './data/DataFactory';
 import WidgetFactory from './widgets/WidgetFactory';
 import ValidatorFactory from './validators/validator-factory';
 
-class App extends React.Component {
-
+class Form extends React.Component {
     state = {
-        value: null,
-        data: new DataFactory(ValidatorFactory).create(SCHEMA).build(),
-        Widgets: new WidgetFactory.create(SCHEMA)
-    };
+        data: null,
+        Widgets: null
+    }
 
-    onDataChange = (_, value) => {
-        this.setState({ data: value });
-        console.log(value.getValueOrDefault());
+    componentDidMount() {
+        const { schema } = this.props;
+
+        this.setState({
+            data: new DataFactory(ValidatorFactory).create(schema).build(),
+            Widgets: new WidgetFactory.create(schema)
+        });
     }
 
     render() {
+        const { onDataChange } = this.props;
         const { data, Widgets } = this.state;
-        return React.cloneElement(Widgets, { data, onDataChange: this.onDataChange });
+
+        return !!Widgets ? React.cloneElement(Widgets, { data, onDataChange }) : null;
+    }
+}
+
+class App extends React.Component {
+    state = { value: {}, tmp: undefined };
+
+    onDataChange = (_, data) => {
+        const value = data.getValueOrDefault();
+        this.setState({ value, tmp: JSON.stringify(value, null, '\t') });
+    }
+
+    updateValue = (value) => {
+        this.setState((prev) => {
+            try {
+                return { value: JSON.parse(prev.tmp), tmp: value };
+            } catch (e) {
+                return { tmp: value };
+            }
+        });
+    }
+
+    render() {
+        const { value, tmp } = this.state;
+
+        return <div className="main-container">
+            <div className="json-schema"><Form schema={SCHEMA} value={value} onDataChange={this.onDataChange} /></div>
+            <div className="json-data">
+                <textarea value={tmp} />
+            </div>
+
+        </div>;
     }
 }
 

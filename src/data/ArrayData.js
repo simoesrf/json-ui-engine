@@ -31,6 +31,7 @@ class ArrayData {
         this._values[index] = value;
         this._validator.validate(this._values);
         this._changed = true;
+        this._validator.validate(this._value);
     }
 
     getValue() {
@@ -41,7 +42,7 @@ class ArrayData {
         const values = this._values.map((item) => item.getValueOrDefault()).filter(item => !!item);
         const defaultValues = this._default.map((item) => item.getValueOrDefault()).filter(item => !!item);
 
-        return values.length > 0 ? values : defaultValues.length > 0 ? defaultValues : undefined;
+        return values.length > 0 ? values : defaultValues.length > 0 ? defaultValues : [];
     }
 
     validate() {
@@ -62,27 +63,25 @@ class ArrayData {
 
     static get Builder() {
         return class Builder {
-            constructor(items, defaultValue = [], validator) {
+            constructor(items, defaultValue, validator) {
                 this._items = items;
 
-                this._default = defaultValue.length > 0 ?
-                    defaultValue.map((item) => {
-                        return this._items.clone().setValue(item.getValue()).build();
-                    }) :
-                    [this._items.clone().build()];
+                this._default = defaultValue;
                 this._values = [];
                 this._validator = validator;
                 this._validator.validate(this._default);
             }
 
-            setValue(value) {
-                this._values.push(this._items.clone().setValue(value).build());
+            setValue(values) {
+                this._values = values.map((value) => this._items.clone().setValue(value));
                 this._validator.validate(this._values);
                 return this;
             }
 
             build() {
-                return new ArrayData(this._items, this._values, this._default, this._validator);
+                const values = this._values.map((value) => value.build());
+                const defaultValues = this._default.map((value) => value.build());
+                return new ArrayData(this._items, values, defaultValues, this._validator);
             }
 
             clone() {
