@@ -7,7 +7,7 @@ class MaximumValidator {
     }
 
     validate(value) {
-        this._isInvalid = value && (value < this._maximum);
+        this._isInvalid = !!value && (value > this._maximum);
         this._validator.validate(value);
     }
 

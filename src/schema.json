@@ -119,8 +119,17 @@
                     "type": "object",
                     "title": "My nested title",
                     "description": "My nested description",
+                    "_ui_": {
+                        "widget": "Specialist",
+                        "configs": {
+                            "country": "potato_country",
+                            "city": "potato_city"
+                        }
+                    },
                     "properties": {
-                        "__id__": { "const": "option1" },
+                        "__id__": {
+                            "const": "option1"
+                        },
                         "country": {
                             "type": "string",
                             "enum": [
@@ -138,7 +147,9 @@
                     "title": "My nested title",
                     "description": "My nested description",
                     "properties": {
-                        "__id__": { "const": "option2" },
+                        "__id__": {
+                            "const": "option2"
+                        },
                         "address": {
                             "title": "adress",
                             "type": "string"

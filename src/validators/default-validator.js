@@ -1,9 +1,20 @@
 class DefaultValidator {
+    constructor(errors = []) {
+        this._errors = errors;
+        this._hasErrors = !!errors.length;
+    }
+
     validate(value) { }
 
-    isInvalid() { return false }
+    isInvalid() { return this._hasErrors }
 
-    errors() { return []; }
+    errors() { return this._errors; }
 }
 
 export default DefaultValidator;
+
+
+
+{
+
+}

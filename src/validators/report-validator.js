@@ -1,14 +1,13 @@
-class MinimumValidator {
-    constructor(validator, minimum) {
-        this._message = `Should be bigger than ${minimum}.`;
+class MaxLengthValidator {
+    constructor(validator, report) {
         this._validator = validator;
-        this._minimum = minimum;
+        this._maxLength = maxLength;
         this._isInvalid = false;
     }
 
     validate(value) {
-        this._isInvalid = value && (value < this._minimum);
-        this._validator.validate(value);
+        this._isInvalid = (value && (value.length > this._maxLength));
+        this._validator && this._validator.validate(value);
     }
 
     isInvalid() {
@@ -21,4 +20,4 @@ class MinimumValidator {
     }
 }
 
-export default MinimumValidator;
+export default MaxLengthValidator;
