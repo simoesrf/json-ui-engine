@@ -21,9 +21,9 @@ const Dropdown = ({
   return (
     <div className="widget-element widget-string">
       <Header title={title} description={description} />
-      <select onChange={handleOnDataChange}>
+      <select onChange={handleOnDataChange} value={value}>
         {options.map(option => (
-          <option value={option} key={option} selected={option === value}>
+          <option value={option} key={option}>
             {option}
           </option>
         ))}

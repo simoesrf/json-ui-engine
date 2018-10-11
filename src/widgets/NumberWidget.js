@@ -12,7 +12,7 @@ const NumberWidget = ({ name, data, onDataChange, title, description }) => {
 
     return <div className="widget-element widget-number">
         <Header title={title} description={description} />
-        <input type="number" value={value} onChange={handleOnDataChange} />
+        <input type="text" value={value} onChange={handleOnDataChange} />
     </div>
 }
 

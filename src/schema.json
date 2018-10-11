@@ -4,6 +4,112 @@
     "type": "object",
     "title": "Persons",
     "properties": {
+        "conditions": {
+            "_ui_": {
+                "type": "conditional_statement_array"
+            },
+            "title": "Conditional",
+            "type": "array",
+            "items": {
+                "__ui__": {
+                    "widget": "conditional_statement_widget",
+                    "fields": {
+                        "primary": "left_operand",
+                        "condition": "condition",
+                        "secondary": "right_operand"
+                    },
+                    "options": [
+                        {
+                            "label": "string"
+                        },
+                        {
+                            "label": "number"
+                        },
+                        {
+                            "label": "boolean"
+                        }
+                    ]
+                },
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "__ui__": {
+                            "widget": "condition_widget"
+                        },
+                        "properties": {
+                            "__id__": {
+                                "const": "string"
+                            },
+                            "left_operand": {
+                                "type": "string"
+                            },
+                            "condition": {
+                                "type": "string",
+                                "default": "Equals",
+                                "enum": [
+                                    "Equals",
+                                    "Not Equals",
+                                    "Contains"
+                                ]
+                            },
+                            "right_operand": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "__id__": {
+                                "const": "number"
+                            },
+                            "left_operand": {
+                                "type": "number"
+                            },
+                            "condition": {
+                                "type": "string",
+                                "default": "Equals",
+                                "enum": [
+                                    "Equals",
+                                    "Not Equals",
+                                    "Greater than",
+                                    "Less than",
+                                    "Equals or greater than",
+                                    "Equals or less than"
+                                ]
+                            },
+                            "right_operand": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "__id__": {
+                                "const": "boolean"
+                            },
+                            "left_operand": {
+                                "type": "boolean"
+                            },
+                            "condition": {
+                                "type": "string",
+                                "default": "Equals",
+                                "enum": [
+                                    "Equals",
+                                    "Not Equals"
+                                ]
+                            },
+                            "right_operand": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                ]
+            },
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "minItems": 1
+        },
         "name": {
             "type": "string",
             "title": "Name",
@@ -138,7 +244,7 @@
                             ]
                         },
                         "city": {
-                            "type": "string"
+                            "type": "number"
                         }
                     }
                 },

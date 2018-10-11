@@ -31,33 +31,4 @@ const create = (schema, errorsList) => {
   return validator;
 };
 
-// class JsonSchemaValidatorFactory {
-//     constructor(errorsReport) {
-//         this._errorsReport = errorsReport;
-//     }
-
-//     create(schema, fieldName) {
-//         const errors = this._errorsReport.getErrors(fieldName);
-//         let validator = new DefaultValidator(errors);
-
-//         if (schema.maxLength) {
-//             validator = new MaxLengthValidator(validator, schema.maxLength)
-//         }
-
-//         if (schema.minLength) {
-//             validator = new MinLengthValidator(validator, schema.minLength)
-//         }
-
-//         if (schema.maximum) {
-//             validator = new MaximumValidator(validator, schema.maximum)
-//         }
-
-//         if (schema.minimum) {
-//             validator = new MinimumValidator(validator, schema.minimum)
-//         }
-
-//         return validator;
-//     }
-// }
-
 export default { create };
